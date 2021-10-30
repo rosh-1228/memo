@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <meta charset=utf-8>
+    <title>メモ</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <h1>メモアプリ</h1>
+    <div>
+      <a href="/new_memo">追加</a>
+    </div>
+    <div>
+        <% if @memo_memo %>
+          <% @memo_memo.each do |memo| %>
+            <%= memo %>
+          <% end %>
+        <% end %>
+    </div>
+  </body>
+</html>
