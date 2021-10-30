@@ -10,11 +10,17 @@
       <a href="/new_memo">追加</a>
     </div>
     <div>
-        <% if @memo_memo %>
-          <% @memo_memo.each do |memo| %>
-            <%= memo %>
+      <ul>
+        <% if @memo_info %>
+          <% @memo_info["memos"].each do |memo| %>
+            <li>
+              <a href="/memo/<%= memo["id"] %>">
+              <%= memo["title"] %>
+              </a>
+            </li>
           <% end %>
         <% end %>
+      </ul>
     </div>
   </body>
 </html>

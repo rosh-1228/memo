@@ -1,0 +1,15 @@
+<html>
+  <head>
+    <meta charset=utf-8>
+    <title>メモ</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <form action="/memo/<%= @memo_id %>/context" method="post">
+      <input type="text" name="title" value="<%= @memo_title %>">
+      <input type="text" name="text" value="<%= @memo_context %>">
+      <input id="hidden" type="hidden" name="_method" value="patch">
+      <input type="submit" value="変更">
+    </form>
+  </body>
+</html>
