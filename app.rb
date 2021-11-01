@@ -68,12 +68,20 @@ get '/memo/:id/context' do
 end
 
 patch '/memo/:id/context' do
-  memo_info = Memo.new.io_memodb
-  memo_info["memos"][params[:id].to_i - 1]["title"] = params[:title]
-  memo_info["memos"][params[:id].to_i - 1]["text"] = params[:text]
+  memo_memo = Memo.new.io_memodb
+
+  memo_info = JSON.parse(memo_memo.to_json, {symbolize_names: true})
+  memo_elm = memo_info[:memos].find {|data| data[:id].to_i == params[:id].to_i }
+
+  number = memo_info[:memos].index(memo_elm)
+
+  memo_memo["memos"][number]["title"] = params["title"]
+  memo_memo["memos"][number]["text"] = params["text"]
+
   File.open("json/memodb.json", "w") do |memodb|
-    JSON.dump(memo_info, memodb)
+    JSON.dump(memo_memo, memodb)
   end
+
   redirect "/"
 end
 
