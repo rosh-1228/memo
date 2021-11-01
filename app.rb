@@ -12,7 +12,6 @@ class Memo
   def io_memodb
     @memo_info
   end
-
 end
 
 get '/' do
@@ -28,9 +27,9 @@ post '/adds' do
   memo_info = Memo.new.io_memodb
 
   if memo_info.nil?
-    memo_info = {"memos" => [params.merge!("id" => "1")]}
+    memo_info = {"memos": [params.merge!("id": 1)]}
   else
-    params.merge!("id" => memo_info["memos"][-1]["id"].to_i + 1)
+    params.merge!("id": memo_info["memos"][-1]["id"].to_i + 1)
     memo_info["memos"] << params
   end
 
@@ -41,31 +40,54 @@ post '/adds' do
 end
 
 get '/memo/:id' do
-  @memo_info = Memo.new.io_memodb
+  memo_memo = Memo.new.io_memodb
+
+  memo_info = JSON.parse(memo_memo.to_json, {symbolize_names: true})
+  memo_elm = memo_info[:memos].find {|data| data[:id].to_i == params[:id].to_i }
+
+  number = memo_info[:memos].index(memo_elm)
+  memo = memo_memo["memos"][number]
+  @memo_id = memo["id"]
+  @memo_title = memo["title"]
+  @memo_context = memo["text"]
   erb :memo_contexts
 end
 
 get '/memo/:id/context' do
-  memo_info = Memo.new.io_memodb["memos"][params[:id].to_i - 1]
-  @memo_id = memo_info["id"]
-  @memo_title = memo_info["title"]
-  @memo_context = memo_info["text"]
+  memo_memo = Memo.new.io_memodb
+
+  memo_info = JSON.parse(memo_memo.to_json, {symbolize_names: true})
+  memo_elm = memo_info[:memos].find {|data| data[:id].to_i == params[:id].to_i }
+
+  number = memo_info[:memos].index(memo_elm)
+  memo = memo_memo["memos"][number]
+  @memo_id = memo["id"]
+  @memo_title = memo["title"]
+  @memo_context = memo["text"]
   erb :memo_contexts_edit
 end
 
 patch '/memo/:id/context' do
-=begin
-  memo_info = Memo.new.io_memodb["memos"][params[:id].to_i - 1]
-  ["title"] = params[:title]
-  memo_info["text"] = params[:text]
-  update_memo = Memo.new.io_memodb["memos"][params[:id].to_i - 1].merge!(memo_info)
-  puts update_memo
-=end
   memo_info = Memo.new.io_memodb
   memo_info["memos"][params[:id].to_i - 1]["title"] = params[:title]
   memo_info["memos"][params[:id].to_i - 1]["text"] = params[:text]
   File.open("json/memodb.json", "w") do |memodb|
     JSON.dump(memo_info, memodb)
   end
+  redirect "/"
+end
+
+delete '/memo/:id' do
+  memo_memo = Memo.new.io_memodb
+  memo_info = JSON.parse(memo_memo.to_json, {symbolize_names: true})
+  memo_elm = memo_info[:memos].find {|data| data[:id].to_i == params[:id].to_i }
+
+  number = memo_info[:memos].index(memo_elm)
+  memo_memo["memos"].delete_at(number)
+
+  File.open("json/memodb.json", "w") do |memodb|
+    JSON.dump(memo_memo, memodb)
+  end
+
   redirect "/"
 end

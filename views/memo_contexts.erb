@@ -6,13 +6,19 @@
   </head>
     <body>
       <div>
-        <%= @memo_info["memos"][params[:id].to_i - 1]["title"] %>
-        <%= @memo_info["memos"][params[:id].to_i - 1]["text"] %>
+        <%= @memo_title %>
+        <%= @memo_context %>
       </div>
-      <div class="button">
-        <a href="/memo/<%= @memo_info["memos"][params[:id].to_i - 1]["id"] %>/context">
+      <div class="edit-button">
+        <a href="/memo/<%= @memo_id %>/context">
           <button type="button">編集</button>
         </a>
+      </div>
+      <div class="delete-button">
+        <form action="/memo/<%= @memo_id %>" method="post">
+          <input id="hidden" type="hidden" name="_method" value="delete">
+          <input type="submit" value="削除">
+        </form>
       </div>
     </form>
   </body>
