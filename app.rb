@@ -46,7 +46,7 @@ end
 post '/adds' do
   memo_info = import_json
 
-  if memo_info.nil?
+  if memo_info.nil? || memo_info["memos"][0].nil?
     memo_info = {"memos": [params.merge!("id": 1)]}
   else
     params.merge!("id": memo_info["memos"][-1]["id"].to_i + 1)
@@ -81,24 +81,15 @@ end
 patch '/memo/:id/context' do
   
   export_json(update_hash(params))
-=begin
-  import_json["memos"][take_number_from_array(params[:id])]["title"] = params["title"]
-  import_json["memos"][take_number_from_array(params[:id])]["text"] = params["text"]
 
-  File.open("json/memodb.json", "w") do |memodb|
-    JSON.dump(import_json, memodb)
-  end
-=end
   redirect "/"
 end
 
 delete '/memo/:id' do
 
-  memo_memo["memos"].delete_at(take_number_from_array(params[:id]))
-
-  File.open("json/memodb.json", "w") do |memodb|
-    JSON.dump(memo_memo, memodb)
-  end
+  memo_info = import_json
+  memo_info["memos"].delete_at(take_number_from_array(params[:id]))
+  export_json(memo_info)
 
   redirect "/"
 end
