@@ -46,6 +46,7 @@ get '/new_memo' do
 end
 
 post '/adds' do
+  params.transform_values! { |params_value| h(params_value) }
   export_json(memos?(memos, params))
   redirect '/'
 end
@@ -70,6 +71,7 @@ get '/memo/:id/context' do
 end
 
 patch '/memo/:id/context' do
+  params.transform_values! { |params_value| h(params_value) }
   export_json(update_memo(memos, params))
 
   redirect '/'
@@ -80,4 +82,10 @@ delete '/memo/:id' do
   export_json(memos)
 
   redirect '/'
+end
+
+helpers do
+  def h(text)
+    Rack::Utils.escape_html(text)
+  end
 end
