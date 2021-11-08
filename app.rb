@@ -89,3 +89,7 @@ helpers do
     Rack::Utils.escape_html(text)
   end
 end
+
+not_found do
+  "404 Not Found. You requested a route that wasn't available."
+end
