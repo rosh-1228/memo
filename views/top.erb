@@ -6,16 +6,18 @@
     <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
-    <h1 class="header__title">メモアプリ</h1>
-    <div>
-      <a href="/new_memo">追加</a>
+    <header class="header">
+      <h1 class="header__title">メモアプリ</h1>
+    </header>
+    <div class="new-memo_link">
+      <a href="/new_memo" class="new-memo_link_button">追加</a>
     </div>
-    <div>
-      <ul>
+    <div class="memo">
+      <ul class="memo_items">
         <% if @memo_info %>
           <% @memo_info["memos"].each do |memo| %>
-            <li>
-              <a href="/memo/<%= memo["id"] %>">
+            <li class="memo_item">
+              <a href="/memo/<%= memo["id"] %>" class="memo_item_link">
               <%= memo["title"] %>
               </a>
             </li>

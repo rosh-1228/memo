@@ -2,24 +2,23 @@
   <head>
     <meta charset=utf-8>
     <title>メモ</title>
+    <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/style.css">
   </head>
     <body>
-      <div>
-        <%= @memo_title %>
-        <%= @memo_context %>
+      <h1 class="header__title">メモアプリ</h1>
+      <div class="memo-context">
+        <p class="memo-context_title"><%= @memo_title %></p>
+        <textarea class="memo-context_context" readonly><%= @memo_context %></textarea>
       </div>
-      <div class="edit-button">
-        <a href="/memo/<%= @memo_id %>/context">
-          <button type="button">編集</button>
+      <div class="form-item_action-items">
+        <a href="/memo/<%= @memo_id %>/context" class="edit_page_link">
+          <button type="button" class="is-edit">変更</button>
         </a>
-      </div>
-      <div class="delete-button">
-        <form action="/memo/<%= @memo_id %>" method="post">
+        <form action="/memo/<%= @memo_id %>" method="post" class="delete-form">
           <input id="hidden" type="hidden" name="_method" value="delete">
-          <input type="submit" value="削除">
+          <input type="submit" value="削除"class="is-delete">
         </form>
       </div>
-    </form>
   </body>
 </html>
