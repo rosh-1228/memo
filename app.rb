@@ -6,7 +6,7 @@ require 'json'
 
 def import_json
   File.open('json/memodb.json') do |memo|
-    JSON.parse(memo)
+    JSON.parse(memo.read)
   end
 end
 
@@ -27,7 +27,11 @@ def export_json(memo_params)
 end
 
 def memos?(memos, params)
-  memos.nil? || memos['memos'][0].nil? ? memos = { 'memos': [params.merge!('id': 1)] } : memos['memos'] << params.merge!('id': memos['memos'][-1]['id'].to_i + 1)
+  if memos.nil? || memos['memos'][0].nil?
+    memos = { 'memos': [params.merge!('id': 1)] }
+  else
+    memos['memos'] << params.merge!('id': memos['memos'][-1]['id'].to_i + 1)
+  end
   memos
 end
 
@@ -42,7 +46,6 @@ get '/new_memo' do
 end
 
 post '/adds' do
-  p params
   export_json(memos?(memos, params))
   redirect '/'
 end
