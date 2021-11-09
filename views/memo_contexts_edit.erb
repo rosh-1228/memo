@@ -8,9 +8,9 @@
   <body>
     <h1 class="header__title">メモアプリ</h1>
     <div class="edit-memo_form_area">
-      <form action="/memo/<%= @memo_id %>/context" method="post" class="edit-memo_form">
-        <input type="text" name="title" value="<%= @memo_title %>" class="form-item_titlearea">
-        <textarea type="text" name="text" class="form-item_textarea"><%= @memo_context %></textarea>
+      <form action="/memo/<%= @memo["id"] %>/context" method="post" class="edit-memo_form">
+        <input type="text" name="title" value="<%= @memo["title"] %>" class="form-item_titlearea">
+        <textarea type="text" name="text" class="form-item_textarea"><%= @memo["text"] %></textarea>
         <input id="hidden" type="hidden" name="_method" value="patch">
         <input type="submit" value="変更" class="is-change">
       </form>

@@ -4,10 +4,14 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
 
-def import_json
-  File.open('json/memodb.json') do |memo|
-    JSON.parse(memo.read)
+helpers do
+  def h(text)
+    Rack::Utils.escape_html(text)
   end
+end
+
+def import_json
+  File.open('json/memodb.json') { |memo| JSON.parse(memo.read) }
 end
 
 memos = import_json
@@ -35,6 +39,11 @@ def memos?(memos, params)
   memos
 end
 
+def update_memos(memos, params)
+  params.transform_values! { |params_value| h(params_value) }
+  export_json(memos?(memos, params))
+end
+
 get '/' do
   memos = import_json
   @memo_info = memos
@@ -46,48 +55,29 @@ get '/new_memo' do
 end
 
 post '/adds' do
-  params.transform_values! { |params_value| h(params_value) }
-  export_json(memos?(memos, params))
+  update_memos(memos, params)
   redirect '/'
 end
 
 get '/memo/:id' do
-  memo_info = memos['memos'][fetch_memo(memos, params)]
-
-  @memo_id = memo_info['id']
-  @memo_title = memo_info['title']
-  @memo_context = memo_info['text']
-
+  @memo = memos['memos'][fetch_memo(memos, params)]
   erb :memo_contexts
 end
 
 get '/memo/:id/context' do
-  memo_info = memos['memos'][fetch_memo(memos, params)]
-
-  @memo_id = memo_info['id']
-  @memo_title = memo_info['title']
-  @memo_context = memo_info['text']
+  @memo = memos['memos'][fetch_memo(memos, params)]
   erb :memo_contexts_edit
 end
 
 patch '/memo/:id/context' do
-  params.transform_values! { |params_value| h(params_value) }
-  export_json(update_memo(memos, params))
-
+  update_memos(memos, params)
   redirect '/'
 end
 
 delete '/memo/:id' do
   memos['memos'].delete_at(fetch_memo(memos, params))
   export_json(memos)
-
   redirect '/'
-end
-
-helpers do
-  def h(text)
-    Rack::Utils.escape_html(text)
-  end
 end
 
 not_found do
