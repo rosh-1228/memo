@@ -10,39 +10,40 @@ helpers do
   end
 
   def import_json
-    @memos = JSON.load(File.open('json/memodb.json').read)
-  end
-
-  def fetch_memo_number(memos, memo_param)
-    memos['memos'].find_index { |data| data['id'].to_i == memo_param['id'].to_i }
+    memo_file = File.open('json/memodb.json').read
+    @memos = JSON.parse(memo_file) if memo_file != ''
   end
 
   def fetch_memo(memos, params)
     @memo = memos['memos'][fetch_memo_number(memos, params)]
   end
+end
 
-  def export_json(params)
-    params['memos'].each do |param|
-      param.transform_keys! {|key| h(key)}
-      param.transform_values! {|key| h(key)}
-    end
-    File.open('json/memodb.json', 'w') { |memodb| JSON.dump(params, memodb) }
-  end
-  
-  def memos?(memos, params)
-    if memos.nil? || memos['memos'][0].nil?
-      memos = { 'memos'=>[params.merge!('id': 1)] }
-    else
-      memos['memos'] << params.merge!('id': memos['memos'][-1]['id'].to_i + 1)
-    end
-    memos
-  end
+def fetch_memo_number(memos, memo_param)
+  memos['memos'].find_index { |data| data['id'].to_i == memo_param['id'].to_i }
+end
 
-  def update_memo(memos, memo_params)
-    memo_params.delete('_method')
-    memos['memos'][fetch_memo_number(memos, memo_params)].replace(memo_params)
-    export_json(memos)
+def memos?(memos, params)
+  if memos.nil? || memos['memos'][0].nil?
+    memos = { 'memos' => [params.merge!('id': 1)] }
+  else
+    memos['memos'] << params.merge!('id': memos['memos'][-1]['id'].to_i + 1)
   end
+  memos
+end
+
+def export_json(params)
+  params['memos'].each do |param|
+    param.transform_keys! { |key| h(key) }
+    param.transform_values! { |key| h(key) }
+  end
+  File.open('json/memodb.json', 'w') { |memodb| JSON.dump(params, memodb) }
+end
+
+def update_memo(memos, memo_params)
+  memo_params.delete('_method')
+  memos['memos'][fetch_memo_number(memos, memo_params)].replace(memo_params)
+  export_json(memos)
 end
 
 get '/' do
