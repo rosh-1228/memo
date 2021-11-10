@@ -14,8 +14,8 @@
     </div>
     <div class="memo">
       <ul class="memo_items">
-        <% if @memo_info %>
-          <% @memo_info["memos"].each do |memo| %>
+        <% if @memos %>
+          <% @memos["memos"].each do |memo| %>
             <li class="memo_item">
               <a href="/memo/<%= memo["id"] %>" class="memo_item_link">
               <%= memo["title"] %>
