@@ -3,6 +3,9 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
+require 'rack/flash'
+
+enable :sessions
 
 helpers do
   def h(param)
@@ -24,6 +27,7 @@ def fetch_memo_number(memos, memo_param)
 end
 
 def memos?(memos, params)
+  params.transform_values! { |key| h(key) }
   if memos.nil? || memos['memos'][0].nil?
     memos = { 'memos' => [params.merge!('id': 1)] }
   else
@@ -33,21 +37,18 @@ def memos?(memos, params)
 end
 
 def export_json(params)
-  params['memos'].each do |param|
-    param.transform_keys! { |key| h(key) }
-    param.transform_values! { |key| h(key) }
-  end
   File.open('json/memodb.json', 'w') { |memodb| JSON.dump(params, memodb) }
 end
 
-def update_memo(memos, memo_params)
-  memo_params.delete('_method')
-  memos['memos'][fetch_memo_number(memos, memo_params)].replace(memo_params)
+def update_memo(memos, params)
+  params.delete('_method')
+  params.transform_values! { |key| h(key) }
+  memos['memos'][fetch_memo_number(memos, params)].replace(params)
   export_json(memos)
 end
 
 get '/' do
-  p import_json
+  import_json
   erb :top
 end
 
@@ -56,8 +57,14 @@ get '/new_memo' do
 end
 
 post '/new_memo' do
-  export_json(memos?(import_json, params))
-  redirect '/'
+  if params['title'] == ''
+    flash[:danger] = 'タイトルが入力されていません。'
+    flash[:context] = params['text']
+    redirect '/new_memo'
+  else
+    export_json(memos?(import_json, params))
+    redirect '/'
+  end
 end
 
 get '/memo/:id' do
@@ -71,8 +78,17 @@ get '/memo/:id/context' do
 end
 
 patch '/memo/:id/context' do
-  update_memo(import_json, params)
-  redirect '/'
+  if params['title'] == ''
+    flash[:danger] = 'タイトルが入力されていません。'
+    p params['text']
+    fetch_memo(import_json, params)
+    @memo['title'] = params['title']
+    @memo['text'] = params['text']
+    erb :memo_contexts_edit
+  else
+    update_memo(import_json, params)
+    redirect '/'
+  end
 end
 
 delete '/memo/:id' do

@@ -9,10 +9,15 @@
     <header class="header">
       <h1 class="header__title">メモアプリ</h1>
     </header>
-    <form action="new_memo" method="post" class="form">
-      <input type="text" name="title" class="form-item_titlearea">
-      <textarea type="text" name="text" class="form-item_textarea"></textarea>
-      <input type="submit" value="保存" class="is-submit">
-    </form>
+    <div data-alert class="flash_alert-box_radius">
+      <%= flash[:danger] %>
+    </div>
+    <div class="form_memo">
+      <form action="new_memo" method="post" class="form">
+        <input type="text" name="title" class="form-item_titlearea">
+        <textarea type="text" name="text" class="form-item_textarea"><%= flash[:context] %></textarea>
+        <input type="submit" value="保存" class="is-submit">
+      </form>
+    </div>
   </body>
 </html>
