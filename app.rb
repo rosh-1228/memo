@@ -47,7 +47,7 @@ def update_memo(memos, memo_params)
 end
 
 get '/' do
-  import_json
+  p import_json
   erb :top
 end
 

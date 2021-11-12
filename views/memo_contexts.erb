@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="/css/style.css">
   </head>
     <body>
-      <h1 class="header__title">メモアプリ</h1>
+      <header class="header">
+        <h1 class="header__title">メモアプリ</h1>
+      </header>
       <div class="memo-context">
         <p class="memo-context_title"><%= @memo["title"] %></p>
         <textarea class="memo-context_context" readonly><%= @memo["text"] %></textarea>
