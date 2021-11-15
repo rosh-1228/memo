@@ -6,12 +6,7 @@ helpers do
   end
 
   def import_json
-=begin
-    memo_file = File.open('json/memodb.json').read
-    p memo_file
-    @memos = JSON.parse(memo_file) if memo_file != ''
-=end
-    @memos = FileTest.zero?('json/memodb.json')? nil : JSON.parse(File.open('json/memodb.json').read)
+    @memos = FileTest.zero?('json/memodb.json') ? {"memos" => []} : JSON.parse(File.open('json/memodb.json').read)
   end
 
   def fetch_memo(memos, params)
@@ -23,9 +18,9 @@ helpers do
   end
 
   def memos?(memos, params)
-    params.transform_values! { |key| h(key) }
     if memos.nil? || memos['memos'][0].nil?
-      memos = { 'memos' => [params.merge!('id': 1)] }
+      #memos = { 'memos' => [params.merge!('id': 1)] }
+      memos['memos'] << params.merge!('id': 1)
     else
       memos['memos'] << params.merge!('id': memos['memos'][-1]['id'].to_i + 1)
     end
