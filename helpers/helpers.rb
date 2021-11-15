@@ -6,7 +6,7 @@ helpers do
   end
 
   def import_json
-    @memos = FileTest.zero?('json/memodb.json') ? {"memos" => []} : JSON.parse(File.open('json/memodb.json').read)
+    @memos = FileTest.zero?('json/memodb.json') ? { 'memos' => [] } : JSON.parse(File.open('json/memodb.json').read)
   end
 
   def fetch_memo(memos, params)
@@ -28,8 +28,7 @@ helpers do
 
   def update_memo(memos, params)
     params.delete('_method')
-    params.transform_values! { |key| h(key) }
-    memos['memos'][fetch_memo_number(memos, params)].replace(params)
+    memos['memos'][fetch_memo_number(memos, params)].replace(params.transform_values! { |key| h(key) })
     export_json(memos)
   end
 end
