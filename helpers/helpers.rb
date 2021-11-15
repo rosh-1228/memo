@@ -32,9 +32,3 @@ helpers do
     export_json(memos)
   end
 end
-
-configure do
-  use Rack::Flash
-end
-
-enable :sessions

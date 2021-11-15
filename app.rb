@@ -6,36 +6,12 @@ require 'json'
 require 'rack/flash'
 require './helpers/helpers'
 
+
 configure do
   use Rack::Flash
 end
 
 enable :sessions
-
-def fetch_memo_number(memos, memo_param)
-  memos['memos'].find_index { |data| data['id'].to_i == memo_param['id'].to_i }
-end
-
-def memos?(memos, params)
-  params.transform_values! { |key| h(key) }
-  if memos.nil? || memos['memos'][0].nil?
-    memos = { 'memos' => [params.merge!('id': 1)] }
-  else
-    memos['memos'] << params.merge!('id': memos['memos'][-1]['id'].to_i + 1)
-  end
-  memos
-end
-
-def export_json(params)
-  File.open('json/memodb.json', 'w') { |memodb| JSON.dump(params, memodb) }
-end
-
-def update_memo(memos, params)
-  params.delete('_method')
-  params.transform_values! { |key| h(key) }
-  memos['memos'][fetch_memo_number(memos, params)].replace(params)
-  export_json(memos)
-end
 
 get '/' do
   import_json
@@ -52,7 +28,7 @@ post '/new_memo' do
     flash[:context] = params['text']
     redirect '/new_memo'
   else
-    export_json(memos?(import_json, params))
+    export_json(memos?(import_json, params.transform_values! { |key| h(key) }))
     redirect '/'
   end
 end
