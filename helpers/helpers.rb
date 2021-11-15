@@ -14,3 +14,9 @@ helpers do
     @memo = memos['memos'][fetch_memo_number(memos, params)]
   end
 end
+
+configure do
+  use Rack::Flash
+end
+
+enable :sessions
