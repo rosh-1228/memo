@@ -9,32 +9,6 @@
 ruby 3.0.0
 ```
 ## 使用方法
-- Bundlerのインストール
-
-bundlerをインストールしてください。
-```
-gem install bundler
-```
-- Gemfileの作成
-
-以下のコマンドを実行してください。
-```
-bundle init
-```
-- 必要なgemを記述
-
-Gemfileに以下の内容を追記してください。
-```
-gem 'sinatra'
-gem 'sinatra-reloader'
-gem 'webrick'
-gem 'rubocop'
-gem 'json'
-gem "rack-flash3"
-gem 'rack-test'
-gem 'test-unit'
-gem 'minitest'
-```
 - メモアプリ起動
 
 以下のコマンドを実行してください。
