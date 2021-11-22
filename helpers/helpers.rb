@@ -6,7 +6,13 @@ helpers do
   end
 
   def import_json
-    @memos = FileTest.zero?('json/memodb.json') ? { 'memos' => [] } : JSON.parse(File.open('json/memodb.json').read)
+    if FileTest.zero?('json/memodb.json')
+      begin
+        @memos = JSON.parse(File.open('json/memodb.json').read)
+      rescue JSON::ParserError
+        @memos = { 'memos' => [] }
+      end
+    end
   end
 
   def fetch_memo(memos, params)
