@@ -24,9 +24,9 @@ end
 
 post '/new_memo' do
   if params['title'] == ''
-    flash[:danger] = 'タイトルが入力されていません。'
-    flash[:context] = params['text']
-    redirect '/new_memo'
+    @message = 'タイトルが入力されていません。'
+    @text = params['text']
+    erb :new_memo
   else
     export_json(memos?(import_json, params.transform_values! { |key| h(key) }))
     redirect '/'
