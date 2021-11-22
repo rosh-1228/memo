@@ -39,5 +39,5 @@ bundle exec ruby app.rb
 ```
 以下のコマンドを実行してください。
 ```
-bundle exec ruby test.rb
+bundle exec ruby test/test.rb
 ```
