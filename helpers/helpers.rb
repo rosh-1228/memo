@@ -34,7 +34,7 @@ helpers do
 
   def update_memo(memos, params)
     params.delete('_method')
-    memos['memos'][fetch_memo_number(memos, params)].replace(params.transform_values! { |key| h(key) })
+    memos['memos'][fetch_memo_number(memos, params)].replace(params)
     export_json(memos)
   end
 end

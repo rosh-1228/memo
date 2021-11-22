@@ -10,8 +10,8 @@
         <h1 class="header__title">メモアプリ</h1>
       </header>
       <div class="memo-context">
-        <p class="memo-context_title"><%= @memo["title"] %></p>
-        <textarea class="memo-context_context" readonly><%= @memo["text"] %></textarea>
+        <p class="memo-context_title"><%= h(@memo["title"]) %></p>
+        <textarea class="memo-context_context" readonly><%= h(@memo["text"]) %></textarea>
       </div>
       <div class="form-item_action-items">
         <a href="/memo/<%= @memo["id"] %>/context" class="edit_page_link">

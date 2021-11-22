@@ -28,7 +28,7 @@ post '/new_memo' do
     @text = params['text']
     erb :new_memo
   else
-    export_json(memos?(import_json, params.transform_values! { |key| h(key) }))
+    export_json(memos?(import_json, params))
     redirect '/'
   end
 end
