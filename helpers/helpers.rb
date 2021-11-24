@@ -18,7 +18,7 @@ helpers do
   end
 
   def memos?(memos, params)
-    memos['memos'] << params.merge!('id': memos['memos'][0].nil? ? 1 : memos['memos'][-1]['id'].to_i + 1)
+    memos['memos'] << params.merge!('id': memos['memos'][0].nil? ? '1' : (memos['memos'][-1]['id'].to_i + 1).to_s)
     memos
   end
 
