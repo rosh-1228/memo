@@ -6,7 +6,6 @@ require 'json'
 require 'rack/flash'
 require './helpers/helpers'
 
-
 configure do
   use Rack::Flash
 end
@@ -18,13 +17,13 @@ get '/' do
   erb :top
 end
 
-get '/new_memo' do
+get '/memos' do
   erb :new_memo
 end
 
-post '/new_memo' do
+post '/memos' do
   if params['title'] == ''
-    @message = 'タイトルが入力されていません。'
+    flash[:danger] = 'タイトルが入力されていません。'
     @text = params['text']
     erb :new_memo
   else
@@ -33,17 +32,17 @@ post '/new_memo' do
   end
 end
 
-get '/memo/:id' do
+get '/memos/:id' do
   fetch_memo(import_json, params)
   erb :memo_contexts
 end
 
-get '/memo/:id/context' do
+get '/memos/:id/contexts' do
   fetch_memo(import_json, params)
   erb :memo_contexts_edit
 end
 
-patch '/memo/:id/context' do
+patch '/memos/:id/contexts' do
   if params['title'] == ''
     flash[:danger] = 'タイトルが入力されていません。'
     fetch_memo(import_json, params)
