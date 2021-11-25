@@ -5,18 +5,6 @@ helpers do
     Rack::Utils.escape_html(param)
   end
 
-  def import_json
-    @memos = FileTest.zero?('json/memodb.json') ? { 'memos' => [] } : JSON.parse(File.open('json/memodb.json').read) rescue { 'memos' => [] }
-  end
-
-  def fetch_memo(memos, params)
-    @memo = memos['memos'][fetch_memo_number(memos, params)]
-  end
-
-  def fetch_memo_number(memos, memo_param)
-    memos['memos'].find_index { |data| data['id'].to_i == memo_param['id'].to_i }
-  end
-
   def memos?(memos, params)
     memos['memos'] << params.merge!('id': memos['memos'][0].nil? ? '1' : (memos['memos'][-1]['id'].to_i + 1).to_s)
     memos
