@@ -33,11 +33,8 @@ bundle exec ruby app.rb
 ![delete_memo](https://user-images.githubusercontent.com/64620506/141740924-09ad1101-d87c-4e13-9851-525cfc4f015c.gif)
 
 ## テスト
-`json/memodb.json`のファイルを以下の文字で上書きしてください。
-```
-{"memos":[{"title":"タイトル","text":"内容１","id":"1"},{"title":"タイトル&lt;b&gt;変更2&lt;&#x2F;b&gt;","text":"内&lt;b&gt;容変&lt;&#x2F;b&gt;更2","id":"2"},{"title":"タイトル変更３","text":"内容変更３","id":"3"},{"title":"タイトル変  更4","text":"内容\r\n\r\n変更4","id":"4"}]}
-```
 以下のコマンドを実行してください。
 ```
-bundle exec ruby test/test.rb
+chmod +x test/test.sh
+./test.sh
 ```
