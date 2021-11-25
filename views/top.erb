@@ -10,14 +10,14 @@
       <h1 class="header__title">メモアプリ</h1>
     </header>
     <div class="new-memo_link">
-      <a href="/new_memo" class="new-memo_link_button">追加</a>
+      <a href="/memos" class="new-memo_link_button">追加</a>
     </div>
     <div class="memo">
       <ul class="memo_items">
         <% if @memos %>
           <% @memos["memos"].each do |memo| %>
             <li class="memo_item">
-              <a href="/memo/<%= memo["id"] %>" class="memo_item_link">
+              <a href="/memos/<%= memo["id"] %>" class="memo_item_link">
               <%= h(memo["title"]) %>
               </a>
             </li>

@@ -4,7 +4,8 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
 require 'rack/flash'
-require './helpers/helpers'
+require './helpers/edit_data_helpers'
+require './helpers/search_helpers'
 
 configure do
   use Rack::Flash
@@ -55,7 +56,7 @@ patch '/memos/:id/contexts' do
   end
 end
 
-delete '/memo/:id' do
+delete '/memos/:id' do
   memos = import_json
   memos['memos'].delete_at(fetch_memo_number(memos, params))
   export_json(memos)

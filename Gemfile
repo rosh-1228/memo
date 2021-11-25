@@ -13,7 +13,9 @@ gem 'json'
 gem 'rack-test'
 gem 'test-unit'
 gem 'minitest'
-gem "rack-flash3"
+gem 'rack-flash3'
+gem 'pry'
+gem 'pry-byebug'
 
 group :development do
   gem 'rubocop-fjord', require: false

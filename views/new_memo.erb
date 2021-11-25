@@ -10,10 +10,10 @@
       <h1 class="header__title">メモアプリ</h1>
     </header>
     <div data-alert class="flash_alert-box_radius">
-      <%= @message if @message %>
+      <%= flash[:danger] %>
     </div>
     <div class="form_memo">
-      <form action="new_memo" method="post" class="form">
+      <form action="memos" method="post" class="form">
         <input type="text" name="title" class="form-item_titlearea">
         <textarea type="text" name="text" class="form-item_textarea"><%= @text if @text %></textarea>
         <input type="submit" value="保存" class="is-submit">

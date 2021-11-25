@@ -14,10 +14,10 @@
         <textarea class="memo-context_context" readonly><%= h(@memo["text"]) %></textarea>
       </div>
       <div class="form-item_action-items">
-        <a href="/memo/<%= @memo["id"] %>/context" class="edit_page_link">
+        <a href="/memos/<%= @memo["id"] %>/contexts" class="edit_page_link">
           <button type="button" class="is-edit">変更</button>
         </a>
-        <form action="/memo/<%= @memo["id"] %>" method="post" class="delete-form">
+        <form action="/memos/<%= @memo["id"] %>" method="post" class="delete-form">
           <input id="hidden" type="hidden" name="_method" value="delete">
           <input type="submit" value="削除"class="is-delete">
         </form>
