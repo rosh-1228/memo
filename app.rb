@@ -18,14 +18,16 @@ get '/' do
   erb :top
 end
 
-get '/memos' do
+get '/new' do
+  flash[:danger] = ''
+  @memo = {'text' => ''}
   erb :new_memo
 end
 
-post '/memos' do
+post '/new' do
   if params['title'] == ''
     flash[:danger] = 'タイトルが入力されていません。'
-    @text = params['text']
+    @memo = {'text' => params['text']}
     erb :new_memo
   else
     export_json(memos?(import_json, params))
@@ -38,12 +40,12 @@ get '/memos/:id' do
   erb :memo_contexts
 end
 
-get '/memos/:id/contexts' do
+get '/memos/:id/edit' do
   fetch_memo(import_json, params)
   erb :memo_contexts_edit
 end
 
-patch '/memos/:id/contexts' do
+patch '/memos/:id/edit' do
   if params['title'] == ''
     flash[:danger] = 'タイトルが入力されていません。'
     fetch_memo(import_json, params)

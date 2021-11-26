@@ -23,7 +23,7 @@ class ControllerTest < Minitest::Test
     assert_equal '/', last_request.path_info
     assert_equal last_request.get?, true
 
-    post '/memos', params = {
+    post '/new', params = {
       'title':'test',
       'text':'test'
     }
