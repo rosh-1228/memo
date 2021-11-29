@@ -18,13 +18,13 @@ get '/' do
   erb :top
 end
 
-get '/new' do
+get '/memos/new' do
   flash[:danger] = ''
   @memo = {'text' => ''}
   erb :new_memo
 end
 
-post '/new' do
+post '/memos' do
   if params['title'] == ''
     flash[:danger] = 'タイトルが入力されていません。'
     @memo = {'text' => params['text']}

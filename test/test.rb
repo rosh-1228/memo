@@ -23,7 +23,7 @@ class ControllerTest < Minitest::Test
     assert_equal '/', last_request.path_info
     assert_equal last_request.get?, true
 
-    post '/new', params = {
+    post '/memos', params = {
       'title':'test',
       'text':'test'
     }
@@ -41,16 +41,16 @@ class ControllerTest < Minitest::Test
     assert_equal '/memos/1', last_request.path_info
     assert_equal last_request.get?, true
 
-    get '/memos/1/contexts', params = {
+    get '/memos/1/edit', params = {
       'title':'test',
       'text':'test',
       'id':'1'
     }
     assert last_response.ok?
-    assert_equal '/memos/1/contexts', last_request.path_info
+    assert_equal '/memos/1/edit', last_request.path_info
     assert_equal last_request.get?, true
 
-    patch '/memos/1/contexts', params = {
+    patch '/memos/1/edit', params = {
       'title':'test変更',
       'text':'test変更'
     }
