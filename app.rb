@@ -45,7 +45,7 @@ get '/memos/:id/edit' do
   erb :memo_contexts_edit
 end
 
-patch '/memos/:id/edit' do
+patch '/memos/:id' do
   if params['title'] == ''
     flash[:danger] = 'タイトルが入力されていません。'
     fetch_memo(import_json, params)

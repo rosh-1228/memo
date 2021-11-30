@@ -13,7 +13,7 @@
       <%= flash[:danger] %>
     </div>
     <div class="edit-memo_form_area">
-      <form action="/memos/<%= @memo["id"] %>/edit" method="post" class="edit-memo_form">
+      <form action="/memos/<%= @memo["id"] %>" method="post" class="edit-memo_form">
         <input type="text" name="title" value="<%= h(@memo["title"]) %>" class="form-item_titlearea">
         <textarea type="text" name="text" class="form-item_textarea"><%= h(@memo["text"]) %></textarea>
         <input id="hidden" type="hidden" name="_method" value="patch">

@@ -50,7 +50,7 @@ class ControllerTest < Minitest::Test
     assert_equal '/memos/1/edit', last_request.path_info
     assert_equal last_request.get?, true
 
-    patch '/memos/1/edit', params = {
+    patch '/memos/1', params = {
       'title':'test変更',
       'text':'test変更'
     }
