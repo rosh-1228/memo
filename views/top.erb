@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <meta charset=utf-8>
+    <title>メモ</title>
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header__title">メモアプリ</h1>
+    </header>
+    <div class="new-memo_link">
+      <a href="/memos/new" class="new-memo_link_button">追加</a>
+    </div>
+    <div class="memo">
+      <ul class="memo_items">
+        <% if @memos %>
+          <% @memos["memos"].each do |memo| %>
+            <li class="memo_item">
+              <a href="/memos/<%= memo["id"] %>" class="memo_item_link">
+              <%= h(memo["title"]) %>
+              </a>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </body>
+</html>
