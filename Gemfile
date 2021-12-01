@@ -16,6 +16,7 @@ gem 'minitest'
 gem 'rack-flash3'
 gem 'pry'
 gem 'pry-byebug'
+gem 'pg'
 
 group :development do
   gem 'rubocop-fjord', require: false
