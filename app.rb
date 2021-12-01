@@ -4,8 +4,8 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
 require 'rack/flash'
-require './helpers/helpers'
 require 'pg'
+require './helpers/helpers'
 
 configure do
   use Rack::Flash
@@ -20,7 +20,7 @@ end
 
 get '/memos/new' do
   flash[:danger] = ''
-  @memo = {'text' => ''}
+  @context = ''
   erb :new_memo
 end
 

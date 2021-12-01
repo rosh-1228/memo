@@ -5,24 +5,24 @@ helpers do
     Rack::Utils.escape_html(param)
   end
 
-  def conect_db
+  def connect_db
     PG.connect( dbname: 'memos')
   end
 
   def load_memo(params = {})
-    @memos = conect_db.exec( "SELECT * FROM memos ORDER BY id" )
-    conect_db.exec( "SELECT * FROM memos WHERE id = #{params['id']}" ).each { |values| @id, @title, @context = values['id'], values['title'], values['context'] } unless params.empty?
+    @memos = connect_db.exec( 'SELECT * FROM memos ORDER BY id' )
+    connect_db.exec_params( "SELECT * FROM memos WHERE id = $1", params['id'] ).each { |values| @id, @title, @context = values['id'], values['title'], values['context'] } unless params.empty?
   end
 
   def add_memo(params)
-    conect_db.exec( "INSERT INTO memos (title, context) VALUES ('#{params['title']}', '#{params['context']}')" )
+    connect_db.exec_params( "INSERT INTO memos (title, context) VALUES ($1, $2)", [params['title'], params['context']])
   end
 
   def update_memo(params)
-    conect_db.exec( "UPDATE memos SET title = '#{params['title']}', context = '#{params['context']}' WHERE id = #{params['id']}" )
+    connect_db.exec_params( "UPDATE memos SET title = $1, context = $2 WHERE id = $3", [params['title'], params['context'], params['id']] )
   end
 
   def delete_memo(id)
-    conect_db.exec( "DELETE FROM memos WHERE id = #{id}" )
+    connect_db.exec_params( "DELETE FROM memos WHERE id = $1", [id] )
   end
 end
