@@ -35,6 +35,5 @@ bundle exec ruby app.rb
 ## テスト
 以下のコマンドを実行してください。
 ```
-chmod +x test/test.sh
-./test.sh
+bundle exec ruby test/test.rb
 ```
