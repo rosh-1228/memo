@@ -5,7 +5,10 @@ require 'test/unit'
 require 'rack/test'
 require 'minitest/autorun'
 
-File.open('json/memodb.json', 'w') { |memodb| JSON.dump({'memos':[]}, memodb) }
+connect = PG.connect( dbname: 'memos')
+
+connect.exec('DROP TABLE memos')
+connect.exec('CREATE TABLE memos( id SERIAL, title TEXT NOT NULL, context TEXT )')
 
 class Minitest::Test
   include Rack::Test::Methods
@@ -25,7 +28,7 @@ class ControllerTest < Minitest::Test
 
     post '/memos', params = {
       'title':'test',
-      'text':'test'
+      'context':'test'
     }
     assert_equal last_request.post?, true
     assert_equal last_request.form_data?, true
@@ -33,8 +36,6 @@ class ControllerTest < Minitest::Test
     assert_equal '/', last_request.path_info
 
     get '/memos/1', params = {
-      'title':'test',
-      'text':'test',
       'id':'1'
     }
     assert last_response.ok?
@@ -42,8 +43,6 @@ class ControllerTest < Minitest::Test
     assert_equal last_request.get?, true
 
     get '/memos/1/edit', params = {
-      'title':'test',
-      'text':'test',
       'id':'1'
     }
     assert last_response.ok?
@@ -52,7 +51,8 @@ class ControllerTest < Minitest::Test
 
     patch '/memos/1', params = {
       'title':'test変更',
-      'text':'test変更'
+      'context':'test変更',
+      'id':'1'
     }
     assert_equal last_request.patch?, true
     assert_equal last_request.form_data?, true
@@ -60,8 +60,6 @@ class ControllerTest < Minitest::Test
     assert_equal '/', last_request.path_info
 
     delete '/memos/1', params = {
-      'title':'test変更',
-      'text':'test変更',
       'id':'1'
     }
     assert_equal last_request.delete?, true

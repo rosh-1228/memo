@@ -6,6 +6,7 @@ require 'json'
 require 'rack/flash'
 require 'pg'
 require './helpers/helpers'
+require './helpers/crud_helpers'
 
 configure do
   use Rack::Flash
@@ -14,6 +15,7 @@ end
 enable :sessions
 
 get '/' do
+  create_db
   load_memo
   erb :top
 end
