@@ -8,7 +8,7 @@ require 'minitest/autorun'
 connect = PG.connect( dbname: 'memos')
 
 connect.exec('DROP TABLE memos')
-connect.exec('CREATE TABLE memos( id SERIAL, title TEXT NOT NULL, context TEXT )')
+connect.exec('CREATE TABLE memos( id SERIAL, title TEXT NOT NULL, text TEXT )')
 
 class Minitest::Test
   include Rack::Test::Methods
@@ -28,7 +28,7 @@ class ControllerTest < Minitest::Test
 
     post '/memos', params = {
       'title':'test',
-      'context':'test'
+      'text':'test'
     }
     assert_equal last_request.post?, true
     assert_equal last_request.form_data?, true
@@ -51,7 +51,7 @@ class ControllerTest < Minitest::Test
 
     patch '/memos/1', params = {
       'title':'test変更',
-      'context':'test変更',
+      'text':'test変更',
       'id':'1'
     }
     assert_equal last_request.patch?, true

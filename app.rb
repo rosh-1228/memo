@@ -22,14 +22,14 @@ end
 
 get '/memos/new' do
   flash[:danger] = ''
-  @context = ''
+  @text = ''
   erb :new_memo
 end
 
 post '/memos' do
   if params['title'] == ''
     flash[:danger] = 'タイトルが入力されていません。'
-    @context = params['context']
+    @text = params['text']
     erb :new_memo
   else
     add_memo(params)
@@ -52,7 +52,7 @@ patch '/memos/:id' do
     flash[:danger] = 'タイトルが入力されていません。'
     load_memo(params)
     @title = params['title']
-    @context = params['text']
+    @text = params['text']
     erb :memo_contexts_edit
   else
     update_memo(params)

@@ -15,7 +15,7 @@
     <div class="edit-memo_form_area">
       <form action="/memos/<%= @id %>" method="post" class="edit-memo_form">
         <input type="text" name="title" value="<%= h(@title) %>" class="form-item_titlearea">
-        <textarea type="text" name="context" class="form-item_textarea"><%= h(@context) %></textarea>
+        <textarea type="text" name="text" class="form-item_textarea"><%= h(@text) %></textarea>
         <input id="hidden" type="hidden" name="_method" value="patch">
         <input type="submit" value="変更" class="is-change">
       </form>
