@@ -4,8 +4,12 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
 require 'rack/flash'
-require './helpers/edit_data_helpers'
-require './helpers/search_helpers'
+require 'pg'
+require './helpers/helpers'
+require './helpers/crud_helpers'
+require 'pg/em'
+require 'pg/em/connection_pool'
+
 
 configure do
   use Rack::Flash
@@ -14,54 +18,53 @@ end
 enable :sessions
 
 get '/' do
-  import_json
+  create_db
+  load_memo
   erb :top
 end
 
 get '/memos/new' do
   flash[:danger] = ''
-  @memo = {'text' => ''}
+  @text = ''
   erb :new_memo
 end
 
 post '/memos' do
   if params['title'] == ''
     flash[:danger] = 'タイトルが入力されていません。'
-    @memo = {'text' => params['text']}
+    @text = params['text']
     erb :new_memo
   else
-    export_json(memos?(import_json, params))
+    add_memo(params)
     redirect '/'
   end
 end
 
 get '/memos/:id' do
-  fetch_memo(import_json, params)
+  load_memo(params)
   erb :memo_contexts
 end
 
 get '/memos/:id/edit' do
-  fetch_memo(import_json, params)
+  load_memo(params)
   erb :memo_contexts_edit
 end
 
 patch '/memos/:id' do
   if params['title'] == ''
     flash[:danger] = 'タイトルが入力されていません。'
-    fetch_memo(import_json, params)
-    @memo['title'] = params['title']
-    @memo['text'] = params['text']
+    load_memo(params)
+    @title = params['title']
+    @text = params['text']
     erb :memo_contexts_edit
   else
-    update_memo(import_json, params)
+    update_memo(params)
     redirect '/'
   end
 end
 
 delete '/memos/:id' do
-  memos = import_json
-  memos['memos'].delete_at(fetch_memo_number(memos, params))
-  export_json(memos)
+  delete_memo(params['id'])
   redirect '/'
 end
 

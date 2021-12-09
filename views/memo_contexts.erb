@@ -10,14 +10,14 @@
         <h1 class="header__title">メモアプリ</h1>
       </header>
       <div class="memo-context">
-        <p class="memo-context_title"><%= h(@memo["title"]) %></p>
-        <textarea class="memo-context_context" readonly><%= h(@memo["text"]) %></textarea>
+        <p class="memo-context_title"><%= h(@title) %></p>
+        <textarea class="memo-context_context" readonly><%= h(@text) %></textarea>
       </div>
       <div class="form-item_action-items">
-        <a href="/memos/<%= @memo["id"] %>/edit" class="edit_page_link">
+        <a href="/memos/<%= @id %>/edit" class="edit_page_link">
           <button type="button" class="is-edit">変更</button>
         </a>
-        <form action="/memos/<%= @memo["id"] %>" method="post" class="delete-form">
+        <form action="/memos/<%= @id %>" method="post" class="delete-form">
           <input id="hidden" type="hidden" name="_method" value="delete">
           <input type="submit" value="削除"class="is-delete">
         </form>

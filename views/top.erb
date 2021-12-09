@@ -15,7 +15,7 @@
     <div class="memo">
       <ul class="memo_items">
         <% if @memos %>
-          <% @memos["memos"].each do |memo| %>
+          <% @memos.each do |memo| %>
             <li class="memo_item">
               <a href="/memos/<%= memo["id"] %>" class="memo_item_link">
               <%= h(memo["title"]) %>
