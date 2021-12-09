@@ -6,7 +6,7 @@ helpers do
   end
 
   def connect_db
-    PG.connect(dbname: 'memos')
+    PG::EM::ConnectionPool.new(size: 1, dbname: 'memos')
   end
 
   def create_db

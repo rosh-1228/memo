@@ -7,6 +7,9 @@ require 'rack/flash'
 require 'pg'
 require './helpers/helpers'
 require './helpers/crud_helpers'
+require 'pg/em'
+require 'pg/em/connection_pool'
+
 
 configure do
   use Rack::Flash
